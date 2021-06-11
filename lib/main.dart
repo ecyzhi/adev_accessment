@@ -12,6 +12,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  ScrollController _scrollController = ScrollController();
+
   Map<String, int> levelMap = {
     'Level 1': 0,
     'Level 2': 1,
@@ -59,6 +61,28 @@ class _HomepageState extends State<Homepage> {
       isActive: true,
     ),
   ];
+
+  void _showBottomSheet(){
+    showModalBottomSheet(context: context, builder: (context){
+      return ListTile(
+        leading: Icon(Icons.settings),
+        title: Text('Settings'),
+        onTap: (){
+          Navigator.pop(context);
+        },
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        _showBottomSheet();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,19 +135,25 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
           Expanded(
-            child: Container(
-              child: Stepper(
-                steps: steps,
-                currentStep: currentStep,
-                type: StepperType.vertical,
-                onStepTapped: (step) {
-                  setState(() {
-                    currentStep = step;
-                  });
-                },
-                controlsBuilder: (context, {onStepContinue, onStepCancel}){
-                  return Container();
-                },
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              controller: _scrollController,
+              child: Container(
+                child: Stepper(
+                  physics: ClampingScrollPhysics(),
+                  steps: steps,
+                  currentStep: currentStep,
+                  type: StepperType.vertical,
+                  onStepTapped: (step) {
+                    setState(() {
+                      currentStep = step;
+                      _showBottomSheet();
+                    });
+                  },
+                  controlsBuilder: (context, {onStepContinue, onStepCancel}){
+                    return Container();
+                  },
+                ),
               ),
             ),
           ),
