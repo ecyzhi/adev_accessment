@@ -1,7 +1,7 @@
 class Level {
   int id;
   String levelName;
-  static int noOfLevel = 9;
+  static int noOfLevel = 5;
 
   static List<String> level =
       List<String>.generate(noOfLevel, (index) => 'Level ${index + 1}');
