@@ -20,7 +20,7 @@ class ProgressPainter extends CustomPainter {
 
     path.moveTo(size.width * 1 / 2, size.height * noOfLevel / noOfLevel);
 
-    var radius = size.height / noOfLevel / 2;
+    var radius = size.width * 0.2;
 
     for (int i = 0; i < noOfLevel; i++) {
       if (i < progressLevel || isDefaultPath) {

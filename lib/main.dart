@@ -228,16 +228,16 @@ class _HomepageState extends State<Homepage> {
                           color: Colors.grey[200],
                           child: _drawProgressPath(currentLevel.id + 1),
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height *
+                          height: MediaQuery.of(context).size.width *
                               noOfLevel *
-                              0.2,
+                              0.4,
                         ),
                         Container(
                           child: _drawButtonContentLayout(),
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height *
+                          height: MediaQuery.of(context).size.width *
                               noOfLevel *
-                              0.2,
+                              0.4,
                         ),
                       ],
                     ),
