@@ -17,9 +17,9 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   ScrollController _scrollController = ScrollController();
   final LocalStorage storage = LocalStorage('adev');
-
   Level currentLevel = Level(id: 0, levelName: 'Level 1');
   bool initialized = false;
+  int noOfLevel = Level.noOfLevel;
 
   void _showBottomSheet() {
     showModalBottomSheet(
@@ -56,14 +56,14 @@ class _HomepageState extends State<Homepage> {
 
   Widget _drawProgressPath(int progressLevel) {
     return CustomPaint(
-      painter: ProgressPainter(progressLevel: 0, isDefaultPath: true),
-      foregroundPainter: ProgressPainter(progressLevel: progressLevel),
+      painter: ProgressPainter(
+          noOfLevel: noOfLevel, progressLevel: 0, isDefaultPath: true),
+      foregroundPainter:
+          ProgressPainter(noOfLevel: noOfLevel, progressLevel: progressLevel),
     );
   }
 
   Widget _drawButtonContentLayout() {
-    int noOfLevel = 5;
-
     return Column(
       children: <Widget>[
         for (int i = noOfLevel; i > 0; i--)
@@ -228,12 +228,16 @@ class _HomepageState extends State<Homepage> {
                           color: Colors.grey[200],
                           child: _drawProgressPath(currentLevel.id + 1),
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
+                          height: MediaQuery.of(context).size.height *
+                              noOfLevel *
+                              0.2,
                         ),
                         Container(
                           child: _drawButtonContentLayout(),
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
+                          height: MediaQuery.of(context).size.height *
+                              noOfLevel *
+                              0.2,
                         ),
                       ],
                     ),
