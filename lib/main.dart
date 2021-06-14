@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:adev_accessment/level.dart';
+import 'package:adev_accessment/progress_painter.dart';
 
 void main() => runApp(MaterialApp(
-  home: Homepage(),
-));
+      home: Homepage(),
+    ));
 
 class Homepage extends StatefulWidget {
   const Homepage({Key key}) : super(key: key);
@@ -20,47 +21,21 @@ class _HomepageState extends State<Homepage> {
   Level currentLevel = Level(id: 0, levelName: 'Level 1');
   bool initialized = false;
 
-  List<Step> steps = [
-    Step(
-      title: Text('Level 1'),
-      content: Text('Level 1'),
-      isActive: true,
-    ),
-    Step(
-      title: Text('Level 2'),
-      content: Text('Level 2'),
-      isActive: true,
-    ),
-    Step(
-      title: Text('Level 3'),
-      content: Text('Level 3'),
-      isActive: true,
-    ),
-    Step(
-      title: Text('Level 4'),
-      content: Text('Level 4'),
-      isActive: true,
-    ),
-    Step(
-      title: Text('Level 5'),
-      content: Text('Level 5'),
-      isActive: true,
-    ),
-  ];
-
-  void _showBottomSheet(){
-    showModalBottomSheet(context: context, builder: (context){
-      return ListTile(
-        leading: Icon(Icons.settings),
-        title: Text('Settings'),
-        onTap: (){
-          Navigator.pop(context);
-        },
-      );
-    });
+  void _showBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          );
+        });
   }
 
-  void _storeLevel(){
+  void _storeLevel() {
     setState(() {
       storage.setItem('adev_level', currentLevel.toJSONEncodable());
     });
@@ -68,18 +43,106 @@ class _HomepageState extends State<Homepage> {
 
   void _getStoredLevel() {
     var storedValue = storage.getItem('adev_level');
-    if(storedValue != null){
+    if (storedValue != null) {
       currentLevel.id = storedValue['id'];
       currentLevel.levelName = storedValue['levelName'];
-      print(storedValue.toString() + ' | ' + currentLevel.id.toString() + ' | ' + currentLevel.levelName);
+      print(storedValue.toString() +
+          ' | ' +
+          currentLevel.id.toString() +
+          ' | ' +
+          currentLevel.levelName);
     }
+  }
+
+  Widget _drawProgressPath(int progressLevel) {
+    return CustomPaint(
+      painter: ProgressPainter(progressLevel: 0, isDefaultPath: true),
+      foregroundPainter: ProgressPainter(progressLevel: progressLevel),
+    );
+  }
+
+  Widget _drawButtonContentLayout() {
+    int noOfLevel = 5;
+
+    return Column(
+      children: <Widget>[
+        for (int i = noOfLevel; i > 0; i--)
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    child: i % 2 == 0
+                        ? FractionallySizedBox(
+                            widthFactor: 0.7,
+                            heightFactor: 0.7,
+                            child: ElevatedButton(
+                                child: Image.asset(
+                                    'assets/images/vimigo_logo_mini.png'),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.yellow,
+                                  shape: CircleBorder(),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _showBottomSheet();
+                                  });
+                                }),
+                          )
+                        : Center(
+                            child: Padding(
+                            padding: EdgeInsets.all(25),
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2,
+                                child: Center(child: Text('Level $i Content'))),
+                          )),
+                  ),
+                  flex: i % 2 == 0 ? 1 : 4,
+                ),
+                Expanded(
+                  child: Container(
+                      child: i % 2 == 0
+                          ? Center(
+                              child: Padding(
+                              padding: EdgeInsets.all(25),
+                              child: Card(
+                                  color: Colors.white,
+                                  elevation: 2,
+                                  child:
+                                      Center(child: Text('Level $i Content'))),
+                            ))
+                          : FractionallySizedBox(
+                              widthFactor: 0.7,
+                              heightFactor: 0.7,
+                              child: ElevatedButton(
+                                  child: Image.asset(
+                                      'assets/images/vimigo_logo_mini.png'),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.yellow,
+                                    shape: CircleBorder(),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _showBottomSheet();
+                                    });
+                                  }),
+                            )),
+                  flex: i % 2 == 0 ? 4 : 1,
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
   }
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         _showBottomSheet();
       }
     });
@@ -90,98 +153,95 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(),
       body: FutureBuilder(
-        future: storage.ready,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if(snapshot.data == null){
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+          future: storage.ready,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          if(!initialized) {
-            _getStoredLevel();
-            initialized = true;
-          }
+            if (!initialized) {
+              _getStoredLevel();
+              initialized = true;
+            }
 
-          return Column(
-            children: [
-              Expanded(
-                child: Container(
-                  color: Colors.blue,
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 15),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: DropdownButton<String>(
-                          items: Level.level.map((String value) =>
-                              DropdownMenuItem(
-                                  value: value, child: Text(value))).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              currentLevel.levelName = value;
-                              currentLevel.id = Level.levelMap[currentLevel.levelName];
-                              _storeLevel();
-                            });
-                          },
-                          value: currentLevel.levelName,
-                          icon: Icon(Icons.expand_more),
-                          iconEnabledColor: Colors.blue,
-                          iconSize: 40,
-                          isExpanded: true,
+            return Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    color: Colors.blue,
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: DropdownButton<String>(
+                            items: Level.level
+                                .map((String value) => DropdownMenuItem(
+                                    value: value, child: Text(value)))
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                currentLevel.levelName = value;
+                                currentLevel.id =
+                                    Level.levelMap[currentLevel.levelName];
+                                _storeLevel();
+                              });
+                            },
+                            value: currentLevel.levelName,
+                            icon: Icon(Icons.expand_more),
+                            iconEnabledColor: Colors.blue,
+                            iconSize: 40,
+                            isExpanded: true,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Card(
-                          color: Colors.blue,
-                          child: Center(
-                            child: Text(
-                              currentLevel.levelName,
-                              style: TextStyle(
-                                color: Colors.white,
+                        Expanded(
+                          child: Card(
+                            color: Colors.blue,
+                            child: Center(
+                              child: Text(
+                                currentLevel.levelName,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  controller: _scrollController,
-                  child: Container(
-                    child: Stepper(
-                      physics: ClampingScrollPhysics(),
-                      steps: steps,
-                      currentStep: currentLevel.id,
-                      type: StepperType.vertical,
-                      onStepTapped: (step) {
-                        setState(() {
-                          currentLevel.id = step;
-                          _showBottomSheet();
-                        });
-                      },
-                      controlsBuilder: (context,
-                          {onStepContinue, onStepCancel}) {
-                        return Container();
-                      },
+                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
-        }
-      ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    controller: _scrollController,
+                    child: Stack(
+                      children: [
+                        Container(
+                          color: Colors.grey[200],
+                          child: _drawProgressPath(currentLevel.id + 1),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                        ),
+                        Container(
+                          child: _drawButtonContentLayout(),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }
-
