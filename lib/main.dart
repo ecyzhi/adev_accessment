@@ -17,9 +17,21 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   ScrollController _scrollController = ScrollController();
   final LocalStorage storage = LocalStorage('adev');
-  Level currentLevel = Level(id: 0, levelName: 'Level 1');
+  Level currentLevel =
+      Level(id: 0, levelName: 'Level 1', levelContent: 'Level 1 Content');
   bool initialized = false;
-  int noOfLevel = Level.noOfLevel;
+
+  int noOfLevel = 5;
+  List<Level> levelList = [];
+
+  void _initLevelList() {
+    for (int i = 0; i < noOfLevel; i++) {
+      levelList.add(new Level(
+          id: i,
+          levelName: 'Level ${i + 1}',
+          levelContent: 'Level ${i + 1} Content'));
+    }
+  }
 
   void _showBottomSheet() {
     showModalBottomSheet(
@@ -46,11 +58,14 @@ class _HomepageState extends State<Homepage> {
     if (storedValue != null) {
       currentLevel.id = storedValue['id'];
       currentLevel.levelName = storedValue['levelName'];
+      currentLevel.levelContent = storedValue['levelContent'];
       print(storedValue.toString() +
           ' | ' +
           currentLevel.id.toString() +
           ' | ' +
-          currentLevel.levelName);
+          currentLevel.levelName +
+          ' | ' +
+          currentLevel.levelContent);
     }
   }
 
@@ -95,7 +110,9 @@ class _HomepageState extends State<Homepage> {
                             child: Card(
                                 color: Colors.white,
                                 elevation: 2,
-                                child: Center(child: Text('Level $i Content'))),
+                                child: Center(
+                                    child:
+                                        Text(levelList[i - 1].levelContent))),
                           )),
                   ),
                   flex: i % 2 == 0 ? 1 : 4,
@@ -109,8 +126,9 @@ class _HomepageState extends State<Homepage> {
                               child: Card(
                                   color: Colors.white,
                                   elevation: 2,
-                                  child:
-                                      Center(child: Text('Level $i Content'))),
+                                  child: Center(
+                                      child:
+                                          Text(levelList[i - 1].levelContent))),
                             ))
                           : FractionallySizedBox(
                               widthFactor: 0.7,
@@ -140,6 +158,9 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
+
+    _initLevelList();
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -182,15 +203,24 @@ class _HomepageState extends State<Homepage> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15)),
                           child: DropdownButton<String>(
-                            items: Level.level
-                                .map((String value) => DropdownMenuItem(
-                                    value: value, child: Text(value)))
+                            items: levelList
+                                .map((Level list) => DropdownMenuItem(
+                                    value: list.levelName,
+                                    child: Text(list.levelName)))
                                 .toList(),
                             onChanged: (value) {
                               setState(() {
                                 currentLevel.levelName = value;
-                                currentLevel.id =
-                                    Level.levelMap[currentLevel.levelName];
+                                currentLevel.id = levelList
+                                    .where(
+                                        (element) => value == element.levelName)
+                                    .first
+                                    .id;
+                                currentLevel.levelContent = levelList
+                                    .where(
+                                        (element) => value == element.levelName)
+                                    .first
+                                    .levelContent;
                                 _storeLevel();
                               });
                             },

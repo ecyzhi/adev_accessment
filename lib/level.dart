@@ -1,29 +1,17 @@
 class Level {
   int id;
   String levelName;
-  static int noOfLevel = 5;
+  String levelContent;
 
-  static List<String> level =
-      List<String>.generate(noOfLevel, (index) => 'Level ${index + 1}');
-
-  static Map<String, int> levelMap = generateLevelMap();
-
-  Level({this.id, this.levelName});
+  Level({this.id, this.levelName, this.levelContent});
 
   toJSONEncodable() {
     Map<String, dynamic> m = new Map();
 
     m['id'] = id;
     m['levelName'] = levelName;
+    m['levelContent'] = levelContent;
 
     return m;
-  }
-
-  static Map<String, int> generateLevelMap() {
-    Map<String, int> generatedMap = {};
-    for (int i = 0; i < noOfLevel; i++) {
-      generatedMap['Level ${i + 1}'] = i;
-    }
-    return generatedMap;
   }
 }
