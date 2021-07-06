@@ -16,6 +16,12 @@ class ProgressPainter extends CustomPainter {
       ..strokeWidth = 10
       ..style = PaintingStyle.stroke;
 
+    final shadowPaint = Paint()
+      ..color = Colors.grey
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5);
+
     final path = Path();
 
     path.moveTo(size.width * 1 / 2, size.height * noOfLevel / noOfLevel);
@@ -47,6 +53,7 @@ class ProgressPainter extends CustomPainter {
         }
       }
     }
+    canvas.drawPath(path.shift(Offset(0, 5)), shadowPaint);
     canvas.drawPath(path, paint);
   }
 
