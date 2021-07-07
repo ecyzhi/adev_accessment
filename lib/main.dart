@@ -1,3 +1,7 @@
+import 'package:adev_accessment/timeline/connector.dart';
+import 'package:adev_accessment/timeline/indicator.dart';
+import 'package:adev_accessment/timeline/tile.dart';
+import 'package:adev_accessment/timeline/tile_repeater.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:adev_accessment/level.dart';
@@ -189,65 +193,65 @@ class _HomepageState extends State<Homepage> {
 
             return Column(
               children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.blue,
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: DropdownButton<String>(
-                            items: levelList
-                                .map((Level list) => DropdownMenuItem(
-                                    value: list.levelName,
-                                    child: Text(list.levelName)))
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                currentLevel.levelName = value;
-                                currentLevel.id = levelList
-                                    .where(
-                                        (element) => value == element.levelName)
-                                    .first
-                                    .id;
-                                currentLevel.levelContent = levelList
-                                    .where(
-                                        (element) => value == element.levelName)
-                                    .first
-                                    .levelContent;
-                                _storeLevel();
-                              });
-                            },
-                            value: currentLevel.levelName,
-                            icon: Icon(Icons.expand_more),
-                            iconEnabledColor: Colors.blue,
-                            iconSize: 40,
-                            isExpanded: true,
-                          ),
-                        ),
-                        Expanded(
-                          child: Card(
-                            color: Colors.blue,
-                            child: Center(
-                              child: Text(
-                                currentLevel.levelName,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Container(
+                //     color: Colors.blue,
+                //     padding: EdgeInsets.all(20),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.stretch,
+                //       children: [
+                //         Container(
+                //           padding:
+                //               EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                //           decoration: BoxDecoration(
+                //               color: Colors.white,
+                //               borderRadius: BorderRadius.circular(15)),
+                //           child: DropdownButton<String>(
+                //             items: levelList
+                //                 .map((Level list) => DropdownMenuItem(
+                //                     value: list.levelName,
+                //                     child: Text(list.levelName)))
+                //                 .toList(),
+                //             onChanged: (value) {
+                //               setState(() {
+                //                 currentLevel.levelName = value;
+                //                 currentLevel.id = levelList
+                //                     .where(
+                //                         (element) => value == element.levelName)
+                //                     .first
+                //                     .id;
+                //                 currentLevel.levelContent = levelList
+                //                     .where(
+                //                         (element) => value == element.levelName)
+                //                     .first
+                //                     .levelContent;
+                //                 _storeLevel();
+                //               });
+                //             },
+                //             value: currentLevel.levelName,
+                //             icon: Icon(Icons.expand_more),
+                //             iconEnabledColor: Colors.blue,
+                //             iconSize: 40,
+                //             isExpanded: true,
+                //           ),
+                //         ),
+                //         Expanded(
+                //           child: Card(
+                //             color: Colors.blue,
+                //             child: Center(
+                //               child: Text(
+                //                 currentLevel.levelName,
+                //                 style: TextStyle(
+                //                   color: Colors.white,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Expanded(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
@@ -271,6 +275,30 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    child: TileRepeater(
+                      noOfLevel: 7,
+                      archievedLevel: 2,
+                      startDirection: StartDirection.right,
+                    ),
+                    // child: Column(
+                    //   children: [
+                    //     Tile(
+                    //       arcDirection: ArcDirection.right,
+                    //       color: Colors.red,
+                    //       content: Text('red'),
+                    //     ),
+                    //     Tile(
+                    //       arcDirection: ArcDirection.left,
+                    //       color: Colors.blue,
+                    //       content: Text('blue'),
+                    //     ),
+                    //   ],
+                    // ),
+                    color: Colors.green[100],
                   ),
                 ),
               ],
