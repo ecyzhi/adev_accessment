@@ -30,69 +30,64 @@ class Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: CustomPaint(
-                  painter: Connector(color: color, direction: after),
-                ),
+          Expanded(
+            child: Container(
+              transform: Matrix4.translationValues(0, 0, 1),
+              child: CustomPaint(
+                painter: Connector(color: color, direction: after),
               ),
-              Expanded(
-                child: CustomPaint(
-                  painter: Connector(color: color, direction: before),
-                ),
-              ),
-            ],
+            ),
           ),
-          Column(
-            children: [
-              Expanded(
-                child: Container(),
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    arcDirection == ArcDirection.right
-                        ? Expanded(
-                            flex: 4,
-                            child: Card(
-                              child: Center(
-                                child: content,
-                              ),
-                            ),
-                          )
-                        : Expanded(
-                            flex: 1,
-                            child: Indicator(),
-                          ),
-                    arcDirection == ArcDirection.right
-                        ? Expanded(
-                            flex: 1,
-                            child: Indicator(),
-                          )
-                        : Expanded(
-                            flex: 4,
-                            child: Card(
-                              child: Center(
-                                child: content,
-                              ),
+          Expanded(
+            child: Container(
+              transform: Matrix4.translationValues(0, 0, -0.1),
+              child: Row(
+                children: [
+                  arcDirection == ArcDirection.right
+                      ? Expanded(
+                          flex: 4,
+                          child: Card(
+                            child: Center(
+                              child: content,
                             ),
                           ),
-                  ],
-                ),
+                        )
+                      : Expanded(
+                          flex: 1,
+                          child: Indicator(),
+                        ),
+                  arcDirection == ArcDirection.right
+                      ? Expanded(
+                          flex: 1,
+                          child: Indicator(),
+                        )
+                      : Expanded(
+                          flex: 4,
+                          child: Card(
+                            child: Center(
+                              child: content,
+                            ),
+                          ),
+                        ),
+                ],
               ),
-              Expanded(
-                child: Container(),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              transform: Matrix4.translationValues(0, 0, 1),
+              child: CustomPaint(
+                painter: Connector(color: color, direction: before),
               ),
-            ],
+            ),
           ),
         ],
       ),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width * 0.45,
+      height: MediaQuery.of(context).size.width * 0.4,
     );
   }
 }

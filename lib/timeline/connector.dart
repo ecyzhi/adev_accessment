@@ -15,10 +15,12 @@ class Connector extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..strokeWidth = 10
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     final shadowPaint = Paint()
       ..color = Colors.grey
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 5
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5);
