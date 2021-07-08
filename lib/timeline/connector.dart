@@ -5,10 +5,9 @@ enum Direction { left_before, left_after, right_before, right_after }
 class Connector extends CustomPainter {
   Color color;
   Direction direction;
-  int noOfMaxLevel;
-  int noOfCurrentLevel;
+  bool isLast;
 
-  Connector({this.color, this.direction});
+  Connector({this.color, this.direction, this.isLast = false});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -37,7 +36,11 @@ class Connector extends CustomPainter {
       path.moveTo(size.width * 0.9, size.height);
       path.arcToPoint(Offset(size.width * 0.7, 0),
           radius: Radius.circular(radius), clockwise: false);
-      path.lineTo(size.width * 0.5, 0);
+      if (isLast) {
+        path.lineTo(size.width * 0.3, 0);
+      } else {
+        path.lineTo(size.width * 0.5, 0);
+      }
     } else if (direction == Direction.left_before) {
       path.moveTo(size.width * 0.5, size.height);
       path.lineTo(size.width * 0.3, size.height);
@@ -47,7 +50,11 @@ class Connector extends CustomPainter {
       path.moveTo(size.width * 0.1, size.height);
       path.arcToPoint(Offset(size.width * 0.3, 0),
           radius: Radius.circular(radius), clockwise: true);
-      path.lineTo(size.width * 0.5, 0);
+      if (isLast) {
+        path.lineTo(size.width * 0.7, 0);
+      } else {
+        path.lineTo(size.width * 0.5, 0);
+      }
     }
 
     canvas.drawPath(path.shift(Offset(0, 7)), shadowPaint);

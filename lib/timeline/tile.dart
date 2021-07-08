@@ -9,7 +9,8 @@ class Tile extends StatelessWidget {
       {key,
       this.arcDirection = ArcDirection.left,
       this.color = Colors.white,
-      this.content})
+      this.content,
+      this.isLast = false})
       : super(key: key) {
     this.before = arcDirection == ArcDirection.right
         ? Direction.right_before
@@ -17,8 +18,6 @@ class Tile extends StatelessWidget {
     this.after = arcDirection == ArcDirection.right
         ? Direction.right_after
         : Direction.left_after;
-    this.color = color;
-    this.content = content;
   }
 
   ArcDirection arcDirection;
@@ -26,21 +25,33 @@ class Tile extends StatelessWidget {
   Direction after;
   Color color;
   Widget content = Text('Hey');
+  bool isLast;
 
   Widget _drawIndicator() {
     return Expanded(
       flex: 1,
-      child: Indicator(),
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(),
+          ),
+          Expanded(
+            child: Indicator(),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _drawContent() {
     return Expanded(
       flex: 4,
-      child: Card(
-        child: Center(
-          child: content,
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: content,
       ),
     );
   }
@@ -55,7 +66,8 @@ class Tile extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomPaint(
-                  painter: Connector(color: color, direction: after),
+                  painter:
+                      Connector(color: color, direction: after, isLast: isLast),
                 ),
               ),
               Expanded(
@@ -63,31 +75,20 @@ class Tile extends StatelessWidget {
               ),
               Expanded(
                 child: CustomPaint(
-                  painter: Connector(color: color, direction: before),
+                  painter: Connector(
+                      color: color, direction: before, isLast: isLast),
                 ),
               ),
             ],
           ),
-          Column(
+          Row(
             children: [
-              Expanded(
-                child: Container(),
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    arcDirection == ArcDirection.right
-                        ? _drawContent()
-                        : _drawIndicator(),
-                    arcDirection == ArcDirection.right
-                        ? _drawIndicator()
-                        : _drawContent(),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(),
-              ),
+              arcDirection == ArcDirection.right
+                  ? _drawContent()
+                  : _drawIndicator(),
+              arcDirection == ArcDirection.right
+                  ? _drawIndicator()
+                  : _drawContent(),
             ],
           ),
         ],

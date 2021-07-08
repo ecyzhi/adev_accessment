@@ -288,33 +288,49 @@ class _HomepageState extends State<Homepage> {
                 ),
                 Expanded(
                   child: Container(
-                    // child: TileRepeater(
-                    //   noOfLevel: 7,
-                    //   archievedLevel: 2,
-                    //   startDirection: StartDirection.right,
-                    // ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Tile(
-                            arcDirection: ArcDirection.right,
-                            color: Colors.white,
-                            content: Text('red'),
+                    child: TileRepeater(
+                      noOfLevel: noOfLevel,
+                      archievedLevel: currentLevel.id + 1,
+                      startDirection: StartDirection.left,
+                      defaultColor: Colors.yellow,
+                      doneColor: Colors.cyan,
+                      //TODO: How to check whether the contentlist.length is same with noOfLevel else throw error
+                      content: [
+                        for (int i = noOfLevel; i > 0; i--)
+                          Card(
+                            child: Center(
+                              child: Text('Level $i'),
+                            ),
                           ),
-                          Tile(
-                            arcDirection: ArcDirection.left,
-                            color: Colors.yellow,
-                            content: Text(
-                                'blueblueblueblueblueblueblueblueb\n\nlueblueblueblueblueblue'),
-                          ),
-                          Tile(
-                            arcDirection: ArcDirection.right,
-                            color: Colors.yellow,
-                            content: Text('red'),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
+                    // child: SingleChildScrollView(
+                    //   child: Column(
+                    //     children: [
+                    //       Tile(
+                    //         arcDirection: ArcDirection.right,
+                    //         color: Colors.white,
+                    //         content: Card(
+                    //           child: Center(
+                    //             child: Text('red'),
+                    //           ),
+                    //         ),
+                    //         isLast: true,
+                    //       ),
+                    //       Tile(
+                    //         arcDirection: ArcDirection.left,
+                    //         color: Colors.yellow,
+                    //         content: Text(
+                    //             '123\n456\n789\n123\n456\nqwertyuiop\nasdfghjklasdasasdasdasdasdasdasd\nzxcvbnmasdfqwerasdqweasdqweasdqwe'),
+                    //       ),
+                    //       Tile(
+                    //         arcDirection: ArcDirection.right,
+                    //         color: Colors.yellow,
+                    //         content: Text('red'),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     color: Colors.green[100],
                   ),
                 ),
