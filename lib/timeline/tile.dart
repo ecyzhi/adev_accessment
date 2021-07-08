@@ -27,6 +27,24 @@ class Tile extends StatelessWidget {
   Color color;
   Widget content = Text('Hey');
 
+  Widget _drawIndicator() {
+    return Expanded(
+      flex: 1,
+      child: Indicator(),
+    );
+  }
+
+  Widget _drawContent() {
+    return Expanded(
+      flex: 4,
+      child: Card(
+        child: Center(
+          child: content,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,31 +77,11 @@ class Tile extends StatelessWidget {
                 child: Row(
                   children: [
                     arcDirection == ArcDirection.right
-                        ? Expanded(
-                            flex: 4,
-                            child: Card(
-                              child: Center(
-                                child: content,
-                              ),
-                            ),
-                          )
-                        : Expanded(
-                            flex: 1,
-                            child: Indicator(),
-                          ),
+                        ? _drawContent()
+                        : _drawIndicator(),
                     arcDirection == ArcDirection.right
-                        ? Expanded(
-                            flex: 1,
-                            child: Indicator(),
-                          )
-                        : Expanded(
-                            flex: 4,
-                            child: Card(
-                              child: Center(
-                                child: content,
-                              ),
-                            ),
-                          ),
+                        ? _drawIndicator()
+                        : _drawContent(),
                   ],
                 ),
               ),
@@ -95,7 +93,7 @@ class Tile extends StatelessWidget {
         ],
       ),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width * 0.45,
+      height: MediaQuery.of(context).size.width * 0.4,
     );
   }
 }

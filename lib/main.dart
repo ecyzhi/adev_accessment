@@ -2,14 +2,23 @@ import 'package:adev_accessment/timeline/connector.dart';
 import 'package:adev_accessment/timeline/indicator.dart';
 import 'package:adev_accessment/timeline/tile.dart';
 import 'package:adev_accessment/timeline/tile_repeater.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:adev_accessment/level.dart';
 import 'package:adev_accessment/progress_painter.dart';
+import 'package:device_preview/device_preview.dart';
 
-void main() => runApp(MaterialApp(
-      home: Homepage(),
-    ));
+void main() => runApp(
+      DevicePreview(
+        enabled: true,
+        builder: (context) => MaterialApp(
+          locale: DevicePreview.locale(context), // Add the locale here
+          builder: DevicePreview.appBuilder, // Add the builder here
+          home: Homepage(),
+        ), // Wrap your app
+      ),
+    );
 
 class Homepage extends StatefulWidget {
   const Homepage({Key key}) : super(key: key);
@@ -279,25 +288,33 @@ class _HomepageState extends State<Homepage> {
                 ),
                 Expanded(
                   child: Container(
-                    child: TileRepeater(
-                      noOfLevel: 7,
-                      archievedLevel: 2,
-                      startDirection: StartDirection.right,
-                    ),
-                    // child: Column(
-                    //   children: [
-                    //     Tile(
-                    //       arcDirection: ArcDirection.right,
-                    //       color: Colors.red,
-                    //       content: Text('red'),
-                    //     ),
-                    //     Tile(
-                    //       arcDirection: ArcDirection.left,
-                    //       color: Colors.blue,
-                    //       content: Text('blue'),
-                    //     ),
-                    //   ],
+                    // child: TileRepeater(
+                    //   noOfLevel: 7,
+                    //   archievedLevel: 2,
+                    //   startDirection: StartDirection.right,
                     // ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Tile(
+                            arcDirection: ArcDirection.right,
+                            color: Colors.white,
+                            content: Text('red'),
+                          ),
+                          Tile(
+                            arcDirection: ArcDirection.left,
+                            color: Colors.yellow,
+                            content: Text(
+                                'blueblueblueblueblueblueblueblueb\n\nlueblueblueblueblueblue'),
+                          ),
+                          Tile(
+                            arcDirection: ArcDirection.right,
+                            color: Colors.yellow,
+                            content: Text('red'),
+                          ),
+                        ],
+                      ),
+                    ),
                     color: Colors.green[100],
                   ),
                 ),

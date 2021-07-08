@@ -19,7 +19,7 @@ class Connector extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final shadowPaint = Paint()
-      ..color = Colors.grey
+      ..color = Colors.grey.shade600
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 5
@@ -50,7 +50,7 @@ class Connector extends CustomPainter {
       path.lineTo(size.width * 0.5, 0);
     }
 
-    canvas.drawPath(path.shift(Offset(0, 5)), shadowPaint);
+    canvas.drawPath(path.shift(Offset(0, 7)), shadowPaint);
     canvas.drawPath(path, paint);
   }
 
