@@ -290,10 +290,10 @@ class _HomepageState extends State<Homepage> {
                   child: Container(
                     child: TileRepeater(
                       noOfLevel: noOfLevel,
-                      archievedLevel: currentLevel.id + 1,
+                      achievedLevel: currentLevel.id + 1,
                       startDirection: StartDirection.left,
-                      defaultColor: Colors.yellow,
-                      doneColor: Colors.cyan,
+                      defaultColor: Colors.white,
+                      doneColor: Colors.yellow,
                       //TODO: How to check whether the contentlist.length is same with noOfLevel else throw error
                       content: [
                         for (int i = noOfLevel; i > 0; i--)

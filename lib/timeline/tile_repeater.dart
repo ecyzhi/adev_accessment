@@ -7,14 +7,14 @@ class TileRepeater extends StatelessWidget {
   TileRepeater(
       {key,
       this.noOfLevel = 5,
-      this.archievedLevel = 1,
+      this.achievedLevel = 1,
       this.startDirection = StartDirection.right,
       this.content,
       this.defaultColor = Colors.white,
       this.doneColor = Colors.yellow})
       : super(key: key);
   int noOfLevel;
-  int archievedLevel;
+  int achievedLevel;
   StartDirection startDirection;
   List<Widget> content;
   Color defaultColor;
@@ -43,7 +43,7 @@ class TileRepeater extends StatelessWidget {
             for (int i = noOfLevel; i > 0; i--)
               Tile(
                 arcDirection: _getArcDirection(i),
-                color: i <= archievedLevel ? doneColor : defaultColor,
+                color: i <= achievedLevel ? doneColor : defaultColor,
                 content: content[noOfLevel - i],
                 isLast: i == noOfLevel,
               ),
