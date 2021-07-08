@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 
-enum Direction { left_before, left_after, right_before, right_after }
+enum Direction {
+  left_before,
+  left_after,
+  left_middle,
+  right_before,
+  right_after,
+  right_middle
+}
 
 class Connector extends CustomPainter {
   Color color;
   Direction direction;
   bool isLast;
+  double radiusWidthRatio;
 
-  Connector({this.color, this.direction, this.isLast = false});
+  Connector(
+      {this.color,
+      this.direction,
+      this.isLast = false,
+      this.radiusWidthRatio = 0.2});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -25,7 +37,7 @@ class Connector extends CustomPainter {
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5);
 
     final path = Path();
-    var radius = size.width * 0.2;
+    var radius = size.width * radiusWidthRatio;
 
     if (direction == Direction.right_before) {
       path.moveTo(size.width * 0.5, size.height);
@@ -55,6 +67,12 @@ class Connector extends CustomPainter {
       } else {
         path.lineTo(size.width * 0.5, 0);
       }
+    } else if (direction == Direction.left_middle) {
+      path.moveTo(size.width * 0.1, size.height);
+      path.lineTo(size.width * 0.1, 0);
+    } else if (direction == Direction.right_middle) {
+      path.moveTo(size.width * 0.9, size.height);
+      path.lineTo(size.width * 0.9, 0);
     }
 
     canvas.drawPath(path.shift(Offset(0, 7)), shadowPaint);

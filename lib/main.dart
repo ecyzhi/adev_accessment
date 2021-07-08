@@ -294,6 +294,7 @@ class _HomepageState extends State<Homepage> {
                       startDirection: StartDirection.left,
                       defaultColor: Colors.white,
                       doneColor: Colors.yellow,
+                      contentHeightRatio: 0.4,
                       //TODO: How to check whether the contentlist.length is same with noOfLevel else throw error
                       content: [
                         for (int i = noOfLevel; i > 0; i--)
@@ -308,6 +309,7 @@ class _HomepageState extends State<Homepage> {
                     //   child: Column(
                     //     children: [
                     //       Tile(
+                    //         contentHeightRatio: 0.6,
                     //         arcDirection: ArcDirection.right,
                     //         color: Colors.white,
                     //         content: Card(
