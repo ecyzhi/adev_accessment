@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Indicator extends StatelessWidget {
-  const Indicator({key}) : super(key: key);
+  Indicator({key, this.color = Colors.yellow}) : super(key: key);
+  Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +10,7 @@ class Indicator extends StatelessWidget {
       child: Image.asset('assets/images/vimigo_logo_mini.png'),
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(0),
-        primary: Colors.yellow,
+        primary: color,
         shape: CircleBorder(),
       ),
       onPressed: () {},

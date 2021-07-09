@@ -261,40 +261,40 @@ class _HomepageState extends State<Homepage> {
                 //     ),
                 //   ),
                 // ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    controller: _scrollController,
-                    child: Stack(
-                      children: [
-                        Container(
-                          color: Colors.grey[200],
-                          child: _drawProgressPath(currentLevel.id + 1),
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.width *
-                              noOfLevel *
-                              0.4,
-                        ),
-                        Container(
-                          child: _drawButtonContentLayout(),
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.width *
-                              noOfLevel *
-                              0.4,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: SingleChildScrollView(
+                //     scrollDirection: Axis.vertical,
+                //     controller: _scrollController,
+                //     child: Stack(
+                //       children: [
+                //         Container(
+                //           color: Colors.grey[200],
+                //           child: _drawProgressPath(currentLevel.id + 1),
+                //           width: MediaQuery.of(context).size.width,
+                //           height: MediaQuery.of(context).size.width *
+                //               noOfLevel *
+                //               0.4,
+                //         ),
+                //         Container(
+                //           child: _drawButtonContentLayout(),
+                //           width: MediaQuery.of(context).size.width,
+                //           height: MediaQuery.of(context).size.width *
+                //               noOfLevel *
+                //               0.4,
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Expanded(
                   child: Container(
                     child: TileRepeater(
                       noOfLevel: noOfLevel,
                       achievedLevel: currentLevel.id + 1,
-                      startDirection: StartDirection.left,
+                      startDirection: StartDirection.right,
                       defaultColor: Colors.white,
                       doneColor: Colors.yellow,
-                      contentHeightRatio: 0.4,
+                      contentHeightRatio: 0.2,
                       //TODO: How to check whether the contentlist.length is same with noOfLevel else throw error
                       content: [
                         for (int i = noOfLevel; i > 0; i--)
@@ -309,7 +309,7 @@ class _HomepageState extends State<Homepage> {
                     //   child: Column(
                     //     children: [
                     //       Tile(
-                    //         contentHeightRatio: 0.6,
+                    //         contentHeightRatio: 0.8,
                     //         arcDirection: ArcDirection.right,
                     //         color: Colors.white,
                     //         content: Card(
@@ -333,7 +333,7 @@ class _HomepageState extends State<Homepage> {
                     //     ],
                     //   ),
                     // ),
-                    color: Colors.green[100],
+                    color: Colors.grey[200],
                   ),
                 ),
               ],

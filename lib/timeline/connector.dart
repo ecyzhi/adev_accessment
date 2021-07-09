@@ -37,33 +37,37 @@ class Connector extends CustomPainter {
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5);
 
     final path = Path();
-    var radius = size.width * radiusWidthRatio;
+    var radius = size.width * radiusWidthRatio / 2.0;
+
+    // To achieve smoother curve, y = -0.5x + 0.9, where assume y is extendLineTo
+    // and x is radiusWidthRatio
+    var extendLineTo = ((-0.5) * radiusWidthRatio) + 0.9;
 
     if (direction == Direction.right_before) {
       path.moveTo(size.width * 0.5, size.height);
-      path.lineTo(size.width * 0.7, size.height);
+      path.lineTo(size.width * extendLineTo, size.height);
       path.arcToPoint(Offset(size.width * 0.9, 0),
           radius: Radius.circular(radius), clockwise: false);
     } else if (direction == Direction.right_after) {
       path.moveTo(size.width * 0.9, size.height);
-      path.arcToPoint(Offset(size.width * 0.7, 0),
+      path.arcToPoint(Offset(size.width * extendLineTo, 0),
           radius: Radius.circular(radius), clockwise: false);
       if (isLast) {
-        path.lineTo(size.width * 0.3, 0);
+        path.lineTo(size.width * (1 - extendLineTo), 0);
       } else {
         path.lineTo(size.width * 0.5, 0);
       }
     } else if (direction == Direction.left_before) {
       path.moveTo(size.width * 0.5, size.height);
-      path.lineTo(size.width * 0.3, size.height);
+      path.lineTo(size.width * (1 - extendLineTo), size.height);
       path.arcToPoint(Offset(size.width * 0.1, 0),
           radius: Radius.circular(radius), clockwise: true);
     } else if (direction == Direction.left_after) {
       path.moveTo(size.width * 0.1, size.height);
-      path.arcToPoint(Offset(size.width * 0.3, 0),
+      path.arcToPoint(Offset(size.width * (1 - extendLineTo), 0),
           radius: Radius.circular(radius), clockwise: true);
       if (isLast) {
-        path.lineTo(size.width * 0.7, 0);
+        path.lineTo(size.width * extendLineTo, 0);
       } else {
         path.lineTo(size.width * 0.5, 0);
       }

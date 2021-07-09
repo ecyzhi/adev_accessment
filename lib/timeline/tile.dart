@@ -29,11 +29,11 @@ class Tile extends StatelessWidget {
   Direction after;
   Direction middle;
   Color color;
-  Widget content = Text('Hey');
+  Widget content;
   bool isLast;
   double contentHeightRatio;
 
-  Widget _drawIndicator() {
+  Widget _drawIndicator(double screenWidth, double screenHeight) {
     return Expanded(
       flex: 1,
       child: Column(
@@ -41,8 +41,12 @@ class Tile extends StatelessWidget {
           Expanded(
             child: Container(),
           ),
-          Expanded(
-            child: Indicator(),
+          SizedBox(
+            width: screenWidth * 0.15,
+            height: screenWidth * 0.15,
+            child: Indicator(
+              color: color,
+            ),
           ),
           Expanded(
             child: Container(),
@@ -76,21 +80,21 @@ class Tile extends StatelessWidget {
                       color: color,
                       direction: after,
                       isLast: isLast,
-                      radiusWidthRatio: contentHeightRatio / 2.0),
+                      radiusWidthRatio: contentHeightRatio),
                 ),
               ),
-              Expanded(
-                child: CustomPaint(
-                  painter: Connector(color: color, direction: middle),
-                ),
-              ),
+              // Expanded(
+              //   child: CustomPaint(
+              //     painter: Connector(color: color, direction: middle),
+              //   ),
+              // ),
               Expanded(
                 child: CustomPaint(
                   painter: Connector(
                       color: color,
                       direction: before,
                       isLast: isLast,
-                      radiusWidthRatio: contentHeightRatio / 2.0),
+                      radiusWidthRatio: contentHeightRatio),
                 ),
               ),
             ],
@@ -99,9 +103,11 @@ class Tile extends StatelessWidget {
             children: [
               arcDirection == ArcDirection.right
                   ? _drawContent()
-                  : _drawIndicator(),
+                  : _drawIndicator(MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height),
               arcDirection == ArcDirection.right
-                  ? _drawIndicator()
+                  ? _drawIndicator(MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height)
                   : _drawContent(),
             ],
           ),
