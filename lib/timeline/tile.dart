@@ -11,7 +11,8 @@ class Tile extends StatelessWidget {
       this.color = Colors.white,
       this.content,
       this.isLast = false,
-      this.contentHeightRatio = 0.4})
+      this.contentHeightRatio = 0.4,
+      this.icon})
       : super(key: key) {
     this.before = arcDirection == ArcDirection.right
         ? Direction.right_before
@@ -32,6 +33,7 @@ class Tile extends StatelessWidget {
   Widget content;
   bool isLast;
   double contentHeightRatio;
+  Widget icon;
 
   Widget _drawIndicator(double screenWidth, double screenHeight) {
     return Expanded(
@@ -46,6 +48,7 @@ class Tile extends StatelessWidget {
             height: screenWidth * 0.15,
             child: Indicator(
               color: color,
+              icon: icon,
             ),
           ),
           Expanded(

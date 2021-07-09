@@ -12,7 +12,8 @@ class TileRepeater extends StatelessWidget {
       this.content,
       this.defaultColor = Colors.white,
       this.doneColor = Colors.yellow,
-      this.contentHeightRatio = 0.4})
+      this.contentHeightRatio = 0.4,
+      this.icon})
       : super(key: key);
   int noOfLevel;
   int achievedLevel;
@@ -21,6 +22,7 @@ class TileRepeater extends StatelessWidget {
   Color defaultColor;
   Color doneColor;
   double contentHeightRatio;
+  Widget icon;
 
   ArcDirection _getArcDirection(int i) {
     if (startDirection == StartDirection.right) {
@@ -49,6 +51,7 @@ class TileRepeater extends StatelessWidget {
                 content: content[noOfLevel - i],
                 isLast: i == noOfLevel,
                 contentHeightRatio: contentHeightRatio,
+                icon: icon,
               ),
           ],
         ),

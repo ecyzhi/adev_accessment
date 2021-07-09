@@ -295,6 +295,7 @@ class _HomepageState extends State<Homepage> {
                       defaultColor: Colors.white,
                       doneColor: Colors.yellow,
                       contentHeightRatio: 0.2,
+                      icon: Image.asset('assets/images/vimigo_logo_mini.png'),
                       //TODO: How to check whether the contentlist.length is same with noOfLevel else throw error
                       content: [
                         for (int i = noOfLevel; i > 0; i--)
